@@ -1,0 +1,55 @@
+# Environment Variables
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# ========================
+# React / Node.js
+# ========================
+Frontend/node_modules/
+Frontend/build/
+Frontend/.env
+Frontend/.parcel-cache/
+Frontend/.next/
+Frontend/dist/
+Frontend/.vscode/
+Frontend/README.md
+# ========================
+# .NET / C#
+# ========================
+Backend/bin/
+Backend/obj/
+Backend/*.user
+Backend/*.suo
+Backend/*.swp
+Backend/*.dbmdl
+Backend/*.jfm
+Backend/launchSettings.json  # auto-generated, contains machine-specific settings
+Backend/.vs/
+Backend/URLShortening.csproj.user
+# Ignore appsettings.Development.json (local only)
+Backend/appsettings.Development.json
+
+# ========================
+# Logs
+# ========================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ========================
+# IDE / OS
+# ========================
+.vscode/
+.idea/
+*.sln.iml
+.DS_Store
+Thumbs.db
+
+# ========================
+# Git
+# ========================
+*.orig
+Frontend/.vscode/ 
