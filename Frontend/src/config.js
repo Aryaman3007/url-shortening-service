@@ -1,7 +1,5 @@
 const config = {
-  apiUrl: process.env.NODE_ENV === 'production'
-    ? 'https://url-shortening-service-1.onrender.com' // Production backend URL
-    : 'http://localhost:5191'
+  apiUrl: process.env.REACT_APP_API_URL
 };
 
 export default config;
