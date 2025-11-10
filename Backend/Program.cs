@@ -24,7 +24,11 @@ var connectionString = $"Host={Environment.GetEnvironmentVariable("DB_HOST")};" 
                       $"Port={Environment.GetEnvironmentVariable("DB_PORT")};" +
                       $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
                       $"Username={Environment.GetEnvironmentVariable("DB_USER")};" +
-                      $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")}";
+                      $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")};";
+
+Console.WriteLine($"Database Host: {Environment.GetEnvironmentVariable("DB_HOST")}");
+Console.WriteLine($"Database Name: {Environment.GetEnvironmentVariable("DB_NAME")}");
+Console.WriteLine($"Database User: {Environment.GetEnvironmentVariable("DB_USER")}");
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -54,6 +58,21 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 
 var app = builder.Build();
 
+// Add error handling middleware
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+        Console.WriteLine($"Stack trace: {ex.StackTrace}");
+        throw;
+    }
+});
+
 app.UseCors("AllowReactApp");
 
 // Configure the HTTP request pipeline.
@@ -72,5 +91,22 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Try to migrate the database on startup
+try
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<URLShorteningContext>();
+        Console.WriteLine("Attempting database migration...");
+        context.Database.Migrate();
+        Console.WriteLine("Database migration completed successfully.");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"An error occurred while migrating the database: {ex.Message}");
+    Console.WriteLine($"Stack trace: {ex.StackTrace}");
+}
 
 app.Run();
