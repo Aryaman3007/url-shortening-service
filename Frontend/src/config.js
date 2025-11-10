@@ -1,6 +1,6 @@
 const config = {
   apiUrl: process.env.NODE_ENV === 'production'
-    ? 'https://your-backend-url.onrender.com' // Replace with your actual backend URL after deployment
+    ? 'https://url-shortening-service-1.onrender.com' // Production backend URL
     : 'http://localhost:5191'
 };
 
